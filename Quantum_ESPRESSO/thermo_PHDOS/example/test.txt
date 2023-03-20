@@ -1,0 +1,3 @@
+example.phdos	#Name of file containing the frequencies
+3234 1 1 4	#Number of frequencies #Scaling factor #DE (cm-1) - range between frequencies #Number of asymmetric units (for crystals)
+25 500 25	#Initial temperature   #Final temperature #Temperature range
