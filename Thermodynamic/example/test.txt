@@ -1,0 +1,3 @@
+example.phonons #Name of file
+81 1 1          #Number of frequencies #Asymmetric units #Scaling factor
+25 1000 25      #Initial temperature   #Final temperature #Temperature range
