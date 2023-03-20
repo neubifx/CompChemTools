@@ -1,2 +1,2 @@
-# CompChem_codes
-Several codes for different applications in Computational Chemistry
+# CompChemTools
+Several scripts for different applications in Computational Chemistry
