@@ -1,7 +1,7 @@
       program Thermo_castep
       
       character*200 :: fin, fin2, fout
-      integer :: nfreq, T, Tmin, Tmax, Tdelta
+      integer :: nfreq, T, Tmin, Tmax, Tdelta, k
       real*8 :: freqnorm(5000), freqscal(5000), dos(5000)
       real*8 :: freqaux(5000), freqdos(5000), vibaux(5000), dosaux(5000)
       real*8 :: fscal, svib, ZVE, Fvib, Utherm, cv, Ftot
@@ -44,14 +44,14 @@
       endif
       enddo
       
-C      k=1
+!      k=1
       do i=1, j-1
       freqscal(i)=freqnorm(i)*fscal
-C      freqdos(i)=freqscal(i)*dos(i)
-C         if (freqdos(i).ne.0) then
-C         vibaux(k)=freqdos(i)
-C         k=k+1
-C         endif
+!      freqdos(i)=freqscal(i)*dos(i)
+!         if (freqdos(i).ne.0) then
+!         vibaux(k)=freqdos(i)
+!         k=k+1
+!         endif
       enddo
 
       do T=Tmin,Tmax,Tdelta
@@ -69,8 +69,7 @@ C         endif
       ZVE = ZVE + (0.5*a1)
 
       !Entropy
-      svib = svib + (bol*((a1/(bol*T))*((exp(a1/(bol*T))-1)**(-1))-
-     *                        log(1-exp((-1*a1)/(bol*T)))))
+      svib = svib + (bol*((a1/(bol*T))*((exp(a1/(bol*T))-1)**(-1))-log(1-exp((-1*a1)/(bol*T)))))
 
       !Fvib
       Fvib = Fvib + bol*T*(log(1-exp((-1*a1/(bol*T)))))
@@ -79,8 +78,7 @@ C         endif
       Utherm = Utherm + a1*(0.5+1/((exp(a1/(bol*T)))-1))
      
       !Cv
-      cv = Cv + bol*(((a1/bol/T)**2)*((exp(a1/bol/T)))/
-     *                  ((exp(a1/bol/T)-1)**2))
+      cv = Cv + bol*(((a1/bol/T)**2)*((exp(a1/bol/T)))/((exp(a1/bol/T)-1)**2))
       
       enddo
       
@@ -95,24 +93,21 @@ C         endif
       
       write(6,*)
       write(6,101)
-      write(6,*) 'Thermodynamic properties from CASTEP phonons ',
-     *'calculation'
+      write(6,*) 'Thermodynamic properties from phonons calculation'
       write(6,101)
       write(6,*)
 
       write(6,'("Zero-point energy:",F14.4, " eV")') ZVE_end
       write(6,*)
       write(6,101)
-      write(6,'(3X,"T(K)", 4X,"E_thermal (eV)",8X, "F_vib (eV)",
-     *4X,"C_v (J/mol/K)",2X,"S_vib (J/mol/K)")')
+      write(6,'(3X,"T(K)", 4X,"E_thermal (eV)",8X, "F_vib (eV)",4X,"C_v (J/mol/K)",2X,"S_vib (J/mol/K)")')
       write(6,101)
 
       endif
       
-      write(6,'(I6,F18.6,F18.6,F17.4,F17.4)') T, Utherm_end, Ftot_end,
-     *cv_end, svib_end
+      write(6,'(I6,F18.6,F18.6,F17.4,F17.4)') T, Utherm_end, Ftot_end, cv_end, svib_end
 
-C      write(*,*) T, Utherm_end, Ftot_end, cv_end, svib_end
+!      write(*,*) T, Utherm_end, Ftot_end, cv_end, svib_end
 
       enddo
       
